@@ -1,0 +1,147 @@
+<html>
+<head >
+    <meta charset="UTF-8">
+
+
+        </head>
+
+
+</head>
+<body>
+    <!-- <img src="https://dobriq-db.oss-cn-shenzhen.aliyuncs.com/hanhan.jpg" width="100%" /> -->
+    <div id="header">
+        <div id="headertop">
+        <div id="Layer1"  width:100% height:100% z-index:-10 max-width:600 >
+         
+            </div>
+        <title>涵涵哈哈恍恍惚惚哼哼啊啊啊啊</title> 
+        <div id="titlebox">
+          <div class="title" id="titlename">DD小区</div> 
+          <div class="title" style="color: rgb(94, 34, 7);font-size: 20px;">——忠实记录某只猫咪直播间实况</div >
+          <div class="title" id="author" ><br>作者： @砖砖-小鹿砖FPV  <br><br>涵涵最棒了！！！阿巴阿巴</div>
+          <div class="title" ><br>2020-9-9更新记录<br>1.时间查询优化<br>2.当天弹幕快速读取<br>3.开播后的极速同步刷新(加入并发处理机制)
+        </div>
+        </div>  
+<div id="wrap">
+        <div  class="live" id="status" style="color: rgb(252, 106, 232);font-size: 20px;text-align:center;  margin: 10px;" >涵妈呼呼大睡   </div>
+     
+ <div id="livelink"  style="text-align:center;  margin: 10px;">      <a  href=https://live.bilibili.com/801580 target="_blank" title="直播间传送门">   直播间传送门   </a></div>
+ <div class="live" id="pn" style="font-size: 20px;text-align:center;  margin: 10px;" >dd数: 114514</div>
+
+</div>
+<div class="live" id="top" style="font-size: 10px;text-align:left;    margin-left: 10px;" ></div>
+ <div class="live" id="hantalk" style=" font-size: 14px;text-align:left;    margin-left: 10px;" ><br></div>
+
+     <div></div>
+    </div>
+    </div>
+          <!-- <img src="  https://cdn.jsdelivr.net/gh/jsBrique/hanhanma@master/hanhan.jpg" width="60%" />  -->
+          <!-- <iframe id="mainIframe" name="mainIframe" src="https://live.bilibili.com/801580" width="90%" height="100%" ></iframe> -->
+          <style>
+              #wrap{
+                  
+    display: flex;
+    flex-direction:row;
+    justify-content: left;
+    margin-left: 2%;  
+}
+#titlebox{
+    /* background:rgba(255, 203, 135, 0.37); */
+}
+.title{
+    text-align:left;    
+    margin-left: 2%;
+    width:100%;
+}
+#hantalk{
+    width:100%;
+height:50%;
+overflow: scroll;
+}
+            .live{
+                color:rgb(94, 34, 7);
+            
+            }
+            #titlename{
+                font-size: 100px;
+                color: rgb(94, 34, 7);
+
+            }
+            #author{
+                font-size: 20px;
+                color: rgb(94, 34, 7);
+
+            }
+            #header{
+                width:100%;
+                z-index:-1;
+            background:url(https://dobriq-db.oss-cn-shenzhen.aliyuncs.com/hanhan.jpg) no-repeat center center  ;
+            background-size: cover;
+            }
+            #headertop{
+                background:rgba(255, 219, 237, 0.753);
+            }
+            #danmu{
+               
+            color:rgb(94, 34, 7);
+            width:100%;
+            background:rgba(167, 230, 255, 0.712);
+            text-align:left;
+            }
+        #danmulist{
+            font-size: 13px;
+            width:100%;
+            margin-left: 5px;
+        }
+
+    </style>
+    <script class="live" src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+
+
+    <div id="danmu" width=100%>    <div  >弹幕日期查询</div>
+    <input type="date" id="date_info" size=50 placeholder="弹幕日期查询"/><div id="danmulist" width=100% >加载中...</div></div>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script type="text/javascript">
+
+    console.log(returnCitySN["cip"]+','+returnCitySN["cname"])
+</script>
+    <script>
+            $(document).ready(function () {
+
+        var time = new Date();
+        var day = ("0" + time.getDate()).slice(-2);
+        var month = ("0" + (time.getMonth() + 1)).slice(-2);
+        var today = time.getFullYear() + "-" + (month) + "-" + (day);
+        $('#date_info').val(today);
+        test();
+    })
+    $("#date_info").change(function(){ test();});
+        setInterval("test()",11000);
+        function test() {
+            $.ajax({
+                url: '/danmu',
+                async:true,
+                type: 'get',
+                dataType:'json',
+                data:{ip:returnCitySN["cip"],cname:returnCitySN["cname"],searchdate: $('#date_info').val()},
+                success: function (data) {
+                    $("#danmulist").html(data['str']);
+                    //+data['num']
+                    $("#pn").html( "dd数："+data['num']);
+                    // $("#top").html( data['top']);
+                    $("#hantalk").html("<br><br>涵涵最近的发言：<br>"+ data['hantalk']+"<br>");
+                    if(data['status']==1)
+                {  $("#status").html("你的小可爱涵涵开播了！");}
+                else
+                {
+                    $("#status").html("涵妈呼呼大睡");
+                }
+                }
+            })
+        }
+    </script>
+
+    <!-- <iframe id="mainIframe" name="mainIframe" src="/dd" width="90%" height="100%" ></iframe> -->
+    
+</body>
+</html>
